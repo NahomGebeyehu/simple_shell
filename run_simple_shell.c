@@ -59,6 +59,34 @@ int run_simple_shell(int interactive)
 			{
 				print_environment();
 			}
+			else if (_strcmp(args[0], "setenv") == 0)
+			{
+				if (args[1] == NULL || args[2] == NULL || args[3] != NULL)
+				{
+					fprintf(stderr, "Usage: setenv VARIABLE VALUE\n");
+				}
+				else
+				{
+					if (setenv(args[1], args[2], 1) == -1)
+					{
+						perror("setenv");
+					}
+				}
+			}
+			else if (_strcmp(args[0], "unsetenv") == 0)
+			{
+				if (args[1] == NULL || args[2] != NULL)
+				{
+					fprintf(stderr, "Usage: unsetenv VARIABLE\n");
+				}
+				else
+				{
+					if (unsetenv(args[1]) == -1)
+					{
+						perror("unsetenv");
+					}
+				}
+			}
 			else if (!is_absolute_path(args[0]))
 			{
 				char *full_path = search_path(args[0], path);
