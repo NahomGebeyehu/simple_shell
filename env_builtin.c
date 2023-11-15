@@ -30,7 +30,7 @@ while (selected_vars[i] != NULL)
 {
 		write(STDOUT_FILENO, selected_vars[i], _strlen(selected_vars[i]));
 		write(STDOUT_FILENO, "=", 1);
-		write(STDOUT_FILENO, value, strlen(value));
+		write(STDOUT_FILENO, value, _strlen(value));
 		write(STDOUT_FILENO, "\n", 1);
 }
 	i++;
