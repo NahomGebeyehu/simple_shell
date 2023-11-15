@@ -60,9 +60,9 @@ int run_simple_shell(int interactive)
                 {
                     if (interactive)
                     {
-                        write(STDERR_FILENO, "sh: 1: ", 6);
-                        write(STDERR_FILENO, args[0], _strlen(args[0]));
-                        write(STDERR_FILENO, ": not found\n", 12);
+                       write(STDERR_FILENO, "./shell: ", 9);
+                       write(STDERR_FILENO, args[0], _strlen(args[0]));
+                       write(STDERR_FILENO, ": command not found\n", 20);
                     }
                     free(args);
                     continue;
