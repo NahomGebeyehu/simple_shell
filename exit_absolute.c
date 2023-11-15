@@ -16,8 +16,5 @@ int is_absolute_path(const char *path)
  */
 void exit_shell(void)
 {
-	char *buffer = NULL;
-
-	free(buffer);
-	_exit(EXIT_SUCCESS);
+	exit(EXIT_SUCCESS);
 }

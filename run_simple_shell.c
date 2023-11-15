@@ -30,6 +30,7 @@ int run_simple_shell(int interactive)
             if (interactive && isatty(STDIN_FILENO))
                 write(STDOUT_FILENO, "\n", 1);
             free(buffer);
+            free(path);
             exit_shell();
         }
 
@@ -41,7 +42,6 @@ int run_simple_shell(int interactive)
 
             if (_strcmp(args[0], "exit") == 0)
             {
-                free(args);
                 exit_shell();
             }
             else if (_strcmp(args[0], "env") == 0)
@@ -80,6 +80,7 @@ int run_simple_shell(int interactive)
                 if (execve(args[0], args, NULL) == -1)
                 {
                     perror("sh");
+                    /*free(path);*/
                     _exit(EXIT_FAILURE);
                 }
             }
@@ -92,7 +93,8 @@ int run_simple_shell(int interactive)
             free(args);
         }
     }
-
-    return 0;
+	free(buffer);
+	
+	return (0);
 }
 
