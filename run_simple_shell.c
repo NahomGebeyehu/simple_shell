@@ -93,7 +93,7 @@ int run_simple_shell(int interactive)
 			free(args);
 		}
 	}
-
+	free(buffer);
 	return (0);
 }
 
