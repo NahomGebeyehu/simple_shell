@@ -19,5 +19,5 @@ void exit_shell(void)
 	char *buffer = NULL;
 
 	free(buffer);
-	exit(EXIT_SUCCESS);
+	_exit(EXIT_SUCCESS);
 }

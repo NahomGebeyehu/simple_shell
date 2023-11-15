@@ -22,7 +22,7 @@ int run_simple_shell(int interactive)
 		int status;
 
 		if (interactive)
-			write(STDOUT_FILENO, ":) ", 3);
+			write(STDOUT_FILENO, "$ ", 2);
 
 		characters = getline(&buffer, &len, stdin);
 
