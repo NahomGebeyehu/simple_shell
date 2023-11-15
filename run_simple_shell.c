@@ -1,9 +1,13 @@
-/* run_simple_shell.c */
 #include "shell.h"
 #include <stdlib.h>
 
 int is_absolute_path(const char *path);
 
+/**
+ * run_simple_shell - Runs a simple shell
+ * @interactive: Flag to check if shell is interactive
+ * Return: 0 on success
+ */
 int run_simple_shell(int interactive)
 {
 	char *buffer = NULL;
