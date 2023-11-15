@@ -4,6 +4,80 @@
 int is_absolute_path(const char *path);
 
 /**
+ * set_environment_variable - Set or modify an environment variable
+ * @args: Arguments passed to the setenv command
+ * Return: 0 on success, -1 on failure
+ */
+int set_environment_variable(char **args)
+{
+	if (args[1] == NULL || args[2] == NULL || args[3] != NULL)
+	{
+		fprintf(stderr, "Usage: setenv VARIABLE VALUE\n");
+		return (-1);
+	}
+
+	if (setenv(args[1], args[2], 1) == -1)
+	{
+		perror("setenv");
+		return (-1);
+	}
+
+	return (0);
+}
+
+/**
+ * unset_environment_variable - Unset an environment variable
+ * @args: Arguments passed to the unsetenv command
+ * Return: 0 on success, -1 on failure
+ */
+int unset_environment_variable(char **args)
+{
+	if (args[1] == NULL || args[2] != NULL)
+	{
+		fprintf(stderr, "Usage: unsetenv VARIABLE\n");
+		return (-1);
+	}
+
+	if (unsetenv(args[1]) == -1)
+	{
+		perror("unsetenv");
+		return (-1);
+	}
+
+	return (0);
+}
+
+/**
+ * execute_command - Execute a command
+ * @args: Arguments passed to the command
+ */
+void execute_command(char **args)
+{
+	pid_t child_pid;
+	int status;
+
+	child_pid = fork();
+	if (child_pid == -1)
+	{
+		perror("Error forking");
+	}
+	else if (child_pid == 0)
+	{
+		/* Child process */
+		if (execve(args[0], args, NULL) == -1)
+		{
+			perror("Execution error");
+			_exit(EXIT_FAILURE);
+		}
+	}
+	else
+	{
+		/* Parent process */
+		waitpid(child_pid, &status, 0);
+	}
+}
+
+/**
  * run_simple_shell - Runs a simple shell
  * @interactive: Flag to check if shell is interactive
  * Return: 0 on success
@@ -22,8 +96,6 @@ int run_simple_shell(int interactive)
 	while (1)
 	{
 		char **args;
-		pid_t child_pid;
-		int status;
 
 		if (interactive)
 			write(STDOUT_FILENO, "$ ", 2);
@@ -39,8 +111,9 @@ int run_simple_shell(int interactive)
 		}
 
 		buffer[characters - 1] = '\0'; /* Remove newline character */
+
 		if (buffer[0] == '#' &&
-				(buffer[1] == ' ' || buffer[1] == '\t' || buffer[1] == '\0'))
+		 (buffer[1] == ' ' || buffer[1] == '\t' || buffer[1] == '\0'))
 		{
 			free(buffer);
 			continue;
@@ -61,31 +134,11 @@ int run_simple_shell(int interactive)
 			}
 			else if (_strcmp(args[0], "setenv") == 0)
 			{
-				if (args[1] == NULL || args[2] == NULL || args[3] != NULL)
-				{
-					fprintf(stderr, "Usage: setenv VARIABLE VALUE\n");
-				}
-				else
-				{
-					if (setenv(args[1], args[2], 1) == -1)
-					{
-						perror("setenv");
-					}
-				}
+				set_environment_variable(args);
 			}
 			else if (_strcmp(args[0], "unsetenv") == 0)
 			{
-				if (args[1] == NULL || args[2] != NULL)
-				{
-					fprintf(stderr, "Usage: unsetenv VARIABLE\n");
-				}
-				else
-				{
-					if (unsetenv(args[1]) == -1)
-					{
-						perror("unsetenv");
-					}
-				}
+				unset_environment_variable(args);
 			}
 			else if (!is_absolute_path(args[0]))
 			{
@@ -108,25 +161,7 @@ int run_simple_shell(int interactive)
 				}
 			}
 
-			child_pid = fork();
-			if (child_pid == -1)
-			{
-				perror("Error forking");
-			}
-			else if (child_pid == 0)
-			{
-				/* Child process */
-				if (execve(args[0], args, NULL) == -1)
-				{
-					perror("Execution error");
-					_exit(EXIT_FAILURE);
-				}
-			}
-			else
-			{
-				/* Parent process */
-				waitpid(child_pid, &status, 0);
-			}
+			execute_command(args);
 
 			free(args);
 		}
