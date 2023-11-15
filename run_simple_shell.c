@@ -53,6 +53,7 @@ int run_simple_shell(int interactive)
 			{
 				free(args);
 				free(buffer);
+				free(path);
 				exit_shell();
 			}
 			else if (_strcmp(args[0], "env") == 0)
