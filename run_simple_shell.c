@@ -52,6 +52,7 @@ int run_simple_shell(int interactive)
 			if (_strcmp(args[0], "exit") == 0)
 			{
 				free(args);
+				free(buffer);
 				exit_shell();
 			}
 			else if (_strcmp(args[0], "env") == 0)
