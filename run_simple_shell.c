@@ -66,7 +66,7 @@ void execute_command(char **args)
 		/* Child process */
 		if (execve(args[0], args, NULL) == -1)
 		{
-			perror("Execution error");
+			/*perror("Execution error");*/
 			_exit(EXIT_FAILURE);
 		}
 	}
