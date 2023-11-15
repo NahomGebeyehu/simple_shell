@@ -1,11 +1,22 @@
 #include "shell.h"
 #include <stdlib.h>
 
-int is_absolute_path(const char *path);
+/**
+ * handle_ctrl_c - Handles the Ctrl-C signal
+ * @signo: The signal number
+ */
+void handle_ctrl_c(int signo)
+{
+	if (signo == SIGINT)
+	{
+		write(STDOUT_FILENO, "\n", 1);
+		exit_shell();
+	}
+}
 
 /**
  * run_simple_shell - Runs a simple shell
- * @interactive: Flag to check if shell is interactive
+ * @interactive: Flag to check if the shell is interactive
  * Return: 0 on success
  */
 int run_simple_shell(int interactive)
@@ -16,8 +27,7 @@ int run_simple_shell(int interactive)
 	size_t len = 0;
 
 	path = getenv("PATH");
-
-	signal(SIGINT, SIG_IGN);
+	signal(SIGINT, handle_ctrl_c);
 
 	while (1)
 	{
