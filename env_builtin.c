@@ -1,6 +1,8 @@
 #include "shell.h"
 #include <unistd.h>
-
+/**
+ * print_environment - Print selected environment variables
+ */
 void print_environment(void)
 {
 char *selected_vars[] = {
@@ -24,7 +26,7 @@ while (selected_vars[i] != NULL)
 {
 	char *value = getenv(selected_vars[i]);
 
-if (value != NULL)
+	if (value != NULL)
 {
 		write(STDOUT_FILENO, selected_vars[i], _strlen(selected_vars[i]));
 		write(STDOUT_FILENO, "=", 1);
