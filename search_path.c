@@ -51,7 +51,6 @@ char *search_path(char *command, char *path)
 	free(path_copy);
 	return (NULL);
 }
-
 /**
  * check_path - Checks if the command exists in the path
  * @token: The path to check
@@ -77,38 +76,3 @@ char *check_path(char *token, char *command)
 	free(full_path);
 	return (NULL);
 }
-
-/**
- * create_full_path - Creates the full path of the command
- * @token: The path
- * @command: The command
- * @token_len: The length of the path
- * Return: The full path of the command
- */
-char *create_full_path(char *token, char *command, size_t token_len)
-{
-	char *full_path;
-	size_t full_path_len, i, j;
-
-	full_path_len = token_len + _strlen(command) + 2;
-	full_path = malloc(full_path_len);
-	if (full_path == NULL)
-	{
-		perror("malloc");
-		_exit(EXIT_FAILURE);
-	}
-
-	for (i = 0; i < token_len; i++)
-		full_path[i] = token[i];
-
-	full_path[i] = '/';
-	i++;
-
-	for (j = 0; j < _strlen(command); j++, i++)
-		full_path[i] = command[j];
-
-	full_path[i] = '\0';
-
-	return (full_path);
-}
-
