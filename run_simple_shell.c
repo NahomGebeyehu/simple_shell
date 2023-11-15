@@ -39,7 +39,11 @@ int run_simple_shell(int interactive)
 		}
 
 		buffer[characters - 1] = '\0'; /* Remove newline character */
-
+		if (buffer[0] == '#')
+		{
+			free(buffer);
+			continue;
+		}
 		if (characters > 1) /* Ignore empty lines */
 		{
 			args = parse_input(buffer);
