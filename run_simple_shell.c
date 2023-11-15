@@ -39,7 +39,8 @@ int run_simple_shell(int interactive)
 		}
 
 		buffer[characters - 1] = '\0'; /* Remove newline character */
-		if (buffer[0] == '#')
+		if (buffer[0] == '#' &&
+				(buffer[1] == ' ' || buffer[1] == '\t' || buffer[1] == '\0'))
 		{
 			free(buffer);
 			continue;
